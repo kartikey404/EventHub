@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Message Detail{% endblock %}
+{% block content %}
+<h2>Subject: {{ message.subject }}</h2>
+<p><strong>From:</strong> {{ message.sender.username }}</p>
+<p><strong>To:</strong> {{ message.recipient.username }}</p>
+<p><strong>Sent:</strong> {{ message.sent_at }}</p>
+<p>{{ message.body }}</p>
+<hr>
+
+<h3>Replies</h3>
+{% if replies %}
+  {% for reply in replies %}
+    <div style="margin-left: 20px; border-left: 2px solid #ccc; padding-left: 10px;">
+      <p><strong>{{ reply.sender.username }}</strong> said:</p>
+      <p>{{ reply.body }}</p>
+      <small>{{ reply.sent_at }}</small>
+    </div>
+    <hr>
+  {% endfor %}
+{% else %}
+  <p>No replies yet.</p>
+{% endif %}
+
+<h3>Reply</h3>
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Send Reply</button>
+</form>
+{% endblock %}

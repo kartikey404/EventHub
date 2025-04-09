@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Venues</h2>
+<ul>
+  {% for venue in venues %}
+    <li>{{ venue.name }} - {{ venue.address }}</li>
+  {% empty %}
+    <li>No venues created yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

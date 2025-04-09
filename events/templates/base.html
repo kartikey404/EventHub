@@ -3,28 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}EventHub{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+<body class="bg-gray-100 text-gray-800">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 text-white px-6 py-4 shadow-md">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
+            <a href="{% url 'dashboard' %}" class="text-2xl font-bold">EventHub</a>
 
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}! | <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
+            <!-- Search form -->
+            <form action="{% url 'search' %}" method="get" class="flex space-x-2">
+                <input type="text" name="q" placeholder="Search venues or artists" class="px-2 py-1 rounded text-black">
+                <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-1 rounded">Search</button>
             </form>
-        </p>
-    {% else %}
-        <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Sign Up</a></p>
+
+            <!-- Navigation Links -->
+            <ul class="flex space-x-4 items-center">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}" class="hover:text-yellow-400">Dashboard</a></li>
+                    <li><a href="{% url 'inbox' %}" class="hover:text-yellow-400">Inbox</a></li>
+                    <li><a href="{% url 'public_events' %}" class="hover:text-yellow-400">Events</a></li>
+
+                    {% if user.userprofile.user_type == 'artist' %}
+                        <li><a href="{% url 'browse_venues' %}" class="hover:text-yellow-400">Find Venues</a></li>
+                    {% elif user.userprofile.user_type == 'manager' %}
+                        <li><a href="{% url 'manager_venue_list' %}" class="hover:text-yellow-400">My Venues</a></li>
+                    {% elif user.userprofile.user_type == 'guest' %}
+                        <li><a href="{% url 'artist_list' %}" class="hover:text-yellow-400">Artists</a></li>
+                        <li><a href="{% url 'venue_list' %}" class="hover:text-yellow-400">Venues</a></li>
+                    {% endif %}
+
+                    <li>
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="hover:text-red-400">Logout</button>
+                        </form>
+                    </li>
+                    <li><span class="text-sm italic">Welcome, {{ user.username }}!</span></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" class="hover:text-yellow-400">Login</a></li>
+                    <li><a href="{% url 'register' %}" class="hover:text-yellow-400">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% if messages %}
+        <div class="container mx-auto mt-4">
+            {% for message in messages %}
+                <div class="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-2 rounded mb-2">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 
-    <hr>
-    {% block content %}
-    {% endblock %}
+    <!-- Page Content -->
+    <div class="container mx-auto mt-6">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

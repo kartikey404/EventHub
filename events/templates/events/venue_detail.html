@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ venue.name }} Details{% endblock %}
+{% block content %}
+<h2>{{ venue.name }}</h2>
+<p>{{ venue.description }}</p>
+
+<a href="{% url 'review_venue' venue.id %}">Leave a Review</a>
+
+<h3>Reviews</h3>
+{% for review in reviews %}
+  <p>⭐ {{ review.rating }} - {{ review.comment }} (by {{ review.user.username }})</p>
+{% empty %}
+  <p>No reviews yet.</p>
+{% endfor %}
+{% endblock %}

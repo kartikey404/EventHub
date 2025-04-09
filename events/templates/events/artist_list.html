@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Artists</h2>
+<ul>
+  {% for artist in artists %}
+    <li>{{ artist.user.username }} - {{ artist.bio }}</li>
+          <a href="{% url 'artist_profile' artist.pk %}">Details</a>
+  {% empty %}
+    <li>No artists found.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

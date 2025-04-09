@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Manage Event Requests{% endblock %}
+{% block content %}
+<h2>Event Requests</h2>
+<ul>
+  {% for r in requests %}
+    <li>
+      <strong>{{ r.artist.username }}</strong> wants to perform at <strong>{{ r.venue.name }}</strong><br>
+      Message: {{ r.message }}<br>
+      Status: {{ r.status }}<br>
+      {% if r.status == 'pending' %}
+        <a href="{% url 'update_request_status' r.id 'accept' %}">Accept</a> |
+        <a href="{% url 'update_request_status' r.id 'reject' %}">Reject</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

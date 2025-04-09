@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+<h3>Artists</h3>
+<ul>
+  {% for artist in artist_results %}
+    <li><a href="{% url 'artist_profile' artist.user.id %}">{{ artist.user.username }}</a> ({{ artist.genre }}, {{ artist.location }})</li>
+  {% empty %}
+    <li>No matching artists found.</li>
+  {% endfor %}
+</ul>
+
+<h3>Venues</h3>
+<ul>
+  {% for venue in venue_results %}
+    <li><a href="{% url 'venue_detail' venue.id %}">{{ venue.name }}</a> ({{ venue.type }}, {{ venue.location }})</li>
+  {% empty %}
+    <li>No matching venues found.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

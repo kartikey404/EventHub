@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}My Venues{% endblock %}
+{% block content %}
+  <h2>All Venues</h2>
+  <ul>
+    {% for venue in venues %}
+      <li>
+        <strong>{{ venue.name }}</strong> ({{ venue.capacity }})<br>
+        {{ venue.description }}<br>
+        <a href="{% url 'venue_detail' venue.pk %}">Details</a>
+      </li>
+    {% empty %}
+      <li>No venues found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Artist Dashboard{% endblock %}
 {% block content %}
-<h2>Welcome, {{ user.username }} ({{ profile.get_user_type_display }})</h2>
-
-<p><strong>Unread Messages:</strong> {{ inbox_count }}</p>
-<a href="{% url 'inbox' %}">Go to Inbox</a> |
+  <h2>Welcome Manager {{ user.username }}!</h2>
+<a href="{% url 'inbox' %}">Inbox</a> |
 <a href="{% url 'sent_messages' %}">Sent</a> |
-<a href="{% url 'send_message' %}">Send Message</a>
+<a href="{% url 'send_message' %}">Send Message |
+<!-- For manager to send request -->
+<a href="{% url 'send_event_request' %}">Request Artist</a> |
+<a href="{% url 'my_requests' %}">Requests</a>
+<p><strong>Unread Messages:</strong> {{ inbox_count }}</p>
+
 
 <h3>Your Venues</h3>
 {% if venues %}

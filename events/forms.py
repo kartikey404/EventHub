@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile
+
+from .models import UserProfile, Venue, Message
+
 
 class CustomUserCreationForm(UserCreationForm):
     USER_TYPES = [
@@ -14,3 +16,36 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'user_type']
+
+
+class VenueForm(forms.ModelForm):
+    class Meta:
+        model = Venue
+        fields = ['name', 'address', 'description', 'capacity']
+
+
+from .models import Review
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.RadioSelect,
+            'comment': forms.Textarea(attrs={'rows': 3}),
+        }
+
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['recipient', 'subject', 'body']
+
+
+from .models import EventRequest
+
+class EventRequestForm(forms.ModelForm):
+    class Meta:
+        model = EventRequest
+        fields = ['venue', 'artist', 'date', 'message']

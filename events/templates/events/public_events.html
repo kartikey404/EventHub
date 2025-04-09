@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Upcoming Events{% endblock %}
+
+{% block content %}
+<h2>Upcoming Confirmed Events</h2>
+
+<ul>
+  {% for event in events %}
+    <li>
+      <strong>{{ event.artist.username }}</strong> will perform at <strong>{{ event.venue.name }}</strong> <br>
+      📍 {{ event.venue.address }} <br>
+      📅 {{ event.date }}
+    </li>
+    <hr>
+  {% empty %}
+    <p>No confirmed events yet.</p>
+  {% endfor %}
+</ul>
+{% endblock %}
