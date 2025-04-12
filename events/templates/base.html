@@ -27,6 +27,7 @@
                     {% if user.userprofile.user_type == 'artist' %}
                         <li><a href="{% url 'browse_venues' %}" class="hover:text-yellow-400">Find Venues</a></li>
                     {% elif user.userprofile.user_type == 'manager' %}
+                        <li><a href="{% url 'artist_list' %}" class="hover:text-yellow-400">Artists</a></li>
                         <li><a href="{% url 'manager_venue_list' %}" class="hover:text-yellow-400">My Venues</a></li>
                     {% elif user.userprofile.user_type == 'guest' %}
                         <li><a href="{% url 'artist_list' %}" class="hover:text-yellow-400">Artists</a></li>

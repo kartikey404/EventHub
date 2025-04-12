@@ -8,6 +8,13 @@
 <a href="{% url 'my_requests' %}">Requests</a>
 <p><strong>Unread Messages:</strong> {{ inbox_count }}</p>
 
+{% for venue in venues_interacted_with %}
+    <p>{{ venue.name }} -
+        <a href="{% url 'chat' venue.owner.id %}">Chat</a>
+    </p>
+{% endfor %}
+
+
 <h3>Your Venues</h3>
 {% if venues %}
   <ul>

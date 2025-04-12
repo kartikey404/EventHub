@@ -10,6 +10,12 @@
 <a href="{% url 'my_requests' %}">Requests</a>
 <p><strong>Unread Messages:</strong> {{ inbox_count }}</p>
 
+  {% for artist in artists_booked %}
+    <p>{{ artist.username  }} -
+        <a href="{% url 'chat' artist.id %}">Chat</a>
+    </p>
+{% endfor %}
+
 
 <h3>Your Venues</h3>
 {% if venues %}

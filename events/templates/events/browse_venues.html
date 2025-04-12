@@ -12,7 +12,8 @@
     <li>
       <strong>{{ venue.name }}</strong><br>
       {{ venue.description }}<br>
-      <a href="{% url 'send_request' venue.id %}">Send Request</a>
+      <a href="{% url 'send_request' venue.id %}">Send Request</a> |
+      <a href="{% url 'chat' venue.owner.id %}">Chat</a>
     </li>
   {% endfor %}
 </ul>
