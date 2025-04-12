@@ -49,3 +49,23 @@ class EventRequestForm(forms.ModelForm):
     class Meta:
         model = EventRequest
         fields = ['venue', 'artist', 'date', 'message']
+
+
+
+from django import forms
+from .models import AvailableSlot, SlotRequest
+
+class AvailableSlotForm(forms.ModelForm):
+    class Meta:
+        model = AvailableSlot
+        fields = ['venue', 'start_time', 'end_time']
+
+        widgets = {
+            'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+class SlotRequestForm(forms.ModelForm):
+    class Meta:
+        model = SlotRequest
+        fields = ['slot']

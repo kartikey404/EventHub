@@ -82,13 +82,35 @@ class Message(models.Model):
         return f"From {self.sender} to {self.recipient}: {self.subject}"
 
 
-
 class ConfirmedEvent(models.Model):
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
     artist = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'userprofile__user_type': 'artist'})
-    date = models.DateField()
-    created_from = models.OneToOneField('EventRequest', on_delete=models.CASCADE)
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class AvailableSlot(models.Model):
+    venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # usually a manager
+    is_booked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.artist.username} at {self.venue.name} on {self.date}"
+        return f"{self.venue.name} | {self.start_time.strftime('%Y-%m-%d %H:%M')} - {self.end_time.strftime('%H:%M')}"
 
+class SlotRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected')
+    ]
+
+    slot = models.ForeignKey(AvailableSlot, on_delete=models.CASCADE)
+    artist = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'userprofile__user_type': 'artist'})
+    requested_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='slot_requests')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+    def __str__(self):
+        return f"{self.artist.username} → {self.slot} [{self.status}]"

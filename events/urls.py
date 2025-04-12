@@ -36,5 +36,13 @@ urlpatterns = [
     path('artists/', views.artist_list, name='artist_list'),
     path('venues/', views.browse_public_venues, name='venue_list'),
     path("chat/<int:user_id>/", views.chat_view, name="chat"),
+    path('calendar/create/', views.create_slot, name='create_slot'),
+    path('calendar/slots/', views.available_slots, name='available_slots'),
+    path('calendar/slots/<int:slot_id>/request/', views.request_slot, name='request_slot'),
+    path('calendar/requests/', views.my_slot_requests, name='my_slot_requests'),
+    path('calendar/requests/<int:request_id>/<str:action>/', views.respond_to_request, name='respond_to_request'),
+    path('artist/<int:artist_id>/request/', views.request_artist_slot, name='request_artist_slot'),
+    path('artist/requests/', views.artist_requests, name='artist_requests'),
+
     # Add other views like 'dashboard' later
 ]

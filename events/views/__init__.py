@@ -8,3 +8,4 @@ from .dashboard_views import *
 from .search_views import *
 from .public_views import *
 from .chat_ui import *
+from .calendar_views import *

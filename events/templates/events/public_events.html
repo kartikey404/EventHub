@@ -2,14 +2,14 @@
 {% block title %}Upcoming Events{% endblock %}
 
 {% block content %}
-<h2>Upcoming Confirmed Events</h2>
+<h2 class="text-xl font-semibold mb-4">Upcoming Confirmed Events</h2>
 
 <ul>
   {% for event in events %}
-    <li>
-      <strong>{{ event.artist.username }}</strong> will perform at <strong>{{ event.venue.name }}</strong> <br>
-      📍 {{ event.venue.address }} <br>
-      📅 {{ event.date }}
+    <li class="mb-4">
+      <strong>{{ event.artist.username }}</strong> will perform at <strong>{{ event.slot.venue.name }}</strong><br>
+      📍 {{ event.slot.venue.address }}<br>
+      📅 {{ event.slot.start_time|date:"M d, Y - H:i" }} to {{ event.slot.end_time|date:"H:i" }}<br>
     </li>
     <hr>
   {% empty %}

@@ -5,7 +5,10 @@
 <a href="{% url 'inbox' %}">Inbox</a> |
 <a href="{% url 'sent_messages' %}">Sent</a> |
 <a href="{% url 'send_message' %}">Send Message</a> |
-<a href="{% url 'my_requests' %}">Requests</a>
+<a href="{% url 'my_requests' %}">Requests</a> |
+<a href="{% url 'available_slots' %}">View Available Slots</a> |
+<a href="{% url 'artist_requests' %}">View Booking Requests</a>
+
 <p><strong>Unread Messages:</strong> {{ inbox_count }}</p>
 
 {% for venue in venues_interacted_with %}

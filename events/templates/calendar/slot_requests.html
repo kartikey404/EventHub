@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Slot Requests{% endblock %}
+{% block content %}
+  <h2>Slot Requests</h2>
+  {% if requests %}
+    <ul>
+      {% for req in requests %}
+        <li>
+          Artist: {{ req.artist.username }} <br>
+          Venue: {{ req.slot.venue.name }} <br>
+          Time: {{ req.slot.start_time }} to {{ req.slot.end_time }} <br>
+          Status: {{ req.get_status_display }} <br>
+
+          {% if req.status == 'pending' %}
+            <a href="{% url 'respond_to_request' req.id 'accept' %}">Accept</a> |
+            <a href="{% url 'respond_to_request' req.id 'reject' %}">Reject</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No slot requests.</p>
+  {% endif %}
+{% endblock %}

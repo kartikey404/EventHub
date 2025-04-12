@@ -3,8 +3,10 @@
 {% block content %}
 <h2>{{ artist.username }}</h2>
 
-{% if user.is_authenticated and user != artist %}
-  <a href="{% url 'send_message_to' artist.id %}" class="btn btn-primary">Message this Artist</a>
+{% if user.is_authenticated and user.userprofile.user_type == 'manager' %}
+  <a href="{% url 'send_message_to' artist.id %}" class="btn btn-primary">Message this Artist</a> |
+  <a href="{% url 'request_artist_slot' artist.id %}">Request Slot</a> |
+  <a href="{% url 'chat' artist.id %}" class="btn btn-primary">Chat</a>
 {% endif %}
 <br>
 <a href="{% url 'review_artist' artist.id %}">Leave a Review</a>

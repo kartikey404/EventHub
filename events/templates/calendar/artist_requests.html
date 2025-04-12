@@ -1,0 +1,19 @@
+<h2>Your Event Requests</h2>
+{% for r in requests %}
+  <div style="margin-bottom: 10px; border: 1px solid #ccc; padding: 10px;">
+    <p><strong>Venue:</strong> {{ r.slot.venue.name }} </p>
+    <p><strong>Slot:</strong> {{ r.slot.start_time }} to {{ r.slot.end_time }}</p>
+    <p><strong>Status:</strong> {{ r.status }}</p>
+
+    {% if r.status == 'pending' %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="request_id" value="{{ r.id }}">
+      <button name="action" value="accept">Accept</button>
+      <button name="action" value="decline">Decline</button>
+    </form>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No requests found.</p>
+{% endfor %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Available Slots{% endblock %}
+{% block content %}
+  <h2>Available Slots</h2>
+  {% if slots %}
+    <ul>
+      {% for slot in slots %}
+        <li>
+          Venue: {{ slot.venue.name }} <br>
+          From: {{ slot.start_time }} To: {{ slot.end_time }} <br>
+          {% if user.userprofile.user_type == 'artist' %}
+            <a href="{% url 'request_slot' slot.id %}">Request This Slot</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No slots available.</p>
+  {% endif %}
+{% endblock %}
