@@ -1,12 +1,9 @@
-<h2>Request {{ artist.username }} for a Slot</h2>
+{% extends 'base.html' %}
+{% block title %}Request Artist{% endblock %}
+
+{% block content %}<h2>Request {{ artist.username }} for a Slot</h2>
 <form method="post">
   {% csrf_token %}
-  <label>Venue:</label>
-  <select name="venue">
-    {% for v in venues %}
-      <option value="{{ v.id }}">{{ v.name }}</option>
-    {% endfor %}
-  </select>
 
   <label>Slot:</label>
   <select name="slot">
@@ -17,3 +14,4 @@
 
   <button type="submit">Send Request</button>
 </form>
+{% endblock %}

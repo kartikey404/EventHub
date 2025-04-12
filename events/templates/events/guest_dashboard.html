@@ -1,28 +1,35 @@
 {% extends 'base.html' %}
-{% block title %}Artist Dashboard{% endblock %}
+{% block title %}Guest Dashboard{% endblock %}
+
 {% block content %}
-  <h2>Welcome Guest {{ user.username }}!</h2>
+  <h2 style="font-size: 26px; margin-bottom: 15px;">👋 Welcome Guest {{ user.username }}!</h2>
 
-<h3>Your Venues</h3>
-{% if venues %}
-  <ul>
-    {% for v in venues %}
-      <li>{{ v.name }} - {{ v.capacity }} people</li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No venues yet.</p>
-{% endif %}
+  <h3 style="margin-top: 25px;">🏠 Venues You've Reviewed</h3>
+  {% if venues %}
+    <ul style="padding-left: 20px;">
+      {% for v in venues %}
+        <li style="margin-bottom: 5px;">{{ v.name }} – Capacity: {{ v.capacity }} people</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No venues yet.</p>
+  {% endif %}
 
-<h3>Your Reviews</h3>
-{% if reviews %}
-  <ul>
-    {% for r in reviews %}
-      <li>{{ r.comment }} - {{ r.rating }} stars</li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No reviews yet.</p>
-{% endif %}
+  <h3 style="margin-top: 30px;">⭐ Your Reviews</h3>
+  {% if reviews %}
+    <ul style="padding-left: 20px;">
+      {% for r in reviews %}
+        <li style="margin-bottom: 5px;">
+          {% if r.venue %}
+            🏠 <strong>{{ r.venue.name }}</strong>:
+          {% elif r.artist %}
+            🎤 <strong>{{ r.artist.username }}</strong>:
+          {% endif %}
+          "{{ r.comment }}" – {{ r.rating }} ⭐
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
 {% endblock %}
-

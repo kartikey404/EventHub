@@ -53,13 +53,31 @@ def request_slot(request, slot_id):
 # Manager views slot requests
 @login_required
 def my_slot_requests(request):
+    if request.user.userprofile.user_type != 'manager':
+        return redirect('dashboard')  # only for manager
+
     requests = SlotRequest.objects.filter(slot__created_by=request.user)
-    return render(request, 'calendar/slot_requests.html', {'requests': requests})
+
+    if request.method == 'POST':
+        req_id = request.POST.get('request_id')
+        action = request.POST.get('action')
+        slot_request = get_object_or_404(SlotRequest, id=req_id, slot__created_by=request.user)
+        print(req_id, action, slot_request)
+
+        if action == 'accept':
+            slot_request.status = 'accepted'
+        elif action == 'decline':
+            slot_request.status = 'declined'
+        slot_request.save()
+
+        return redirect('my_slot_requests')
+    return render(request, 'calendar/slot_requests.html', {'requests': requests, 'user': request.user})
 
 
 # Manager approves/rejects
 @login_required
 def respond_to_request(request, request_id, action):
+    print(request_id, action)
     slot_request = get_object_or_404(SlotRequest, pk=request_id, slot__created_by=request.user)
     if action == 'accept':
         slot_request.status = 'accepted'
@@ -78,10 +96,8 @@ def request_artist_slot(request, artist_id):
     slots = AvailableSlot.objects.filter(venue__in=venues)
 
     if request.method == 'POST':
-        venue_id = request.POST.get('venue')
         slot_id = request.POST.get('slot')
-        venue = get_object_or_404(Venue, id=venue_id, owner=request.user)
-        slot = get_object_or_404(AvailableSlot, id=slot_id, venue=venue)
+        slot = get_object_or_404(AvailableSlot, id=slot_id)
 
         if request.method == 'POST':
             SlotRequest.objects.create(

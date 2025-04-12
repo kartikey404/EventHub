@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 
 from events.forms import VenueForm
-from events.models import Venue, Review
+from events.models import Venue, Review, AvailableSlot
 
 
 @login_required
@@ -46,7 +46,7 @@ def venue_detail(request, venue_id):
     return render(request, 'events/venue_detail.html', {'venue': venue, 'reviews': reviews})
 
 
-@login_required
-def my_venues(request):
-    venues = Venue.objects.filter(owner=request.user)
-    return render(request, 'events/my_venues.html', {'venues': venues})
+def slots_by_venue(request, venue_id):
+    venue = get_object_or_404(Venue, id=venue_id)
+    slots = AvailableSlot.objects.filter(venue=venue).order_by('start_time')
+    return render(request, 'events/slots_by_venue.html', {'venue': venue, 'slots': slots})

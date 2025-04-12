@@ -12,7 +12,10 @@
     <li>
       <strong>{{ venue.name }}</strong><br>
       {{ venue.description }}<br>
-      <a href="{% url 'send_request' venue.id %}">Send Request</a> |
+      <a href="{% url 'slots_by_venue' venue.id %}"
+         style="float: right; background: #17a2b8; color: white; padding: 6px 10px; border-radius: 4px;">
+         View Slots
+      </a> |
       <a href="{% url 'chat' venue.owner.id %}">Chat</a>
     </li>
   {% endfor %}

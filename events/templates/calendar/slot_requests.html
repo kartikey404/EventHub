@@ -1,24 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}Slot Requests{% endblock %}
-{% block content %}
-  <h2>Slot Requests</h2>
-  {% if requests %}
-    <ul>
-      {% for req in requests %}
-        <li>
-          Artist: {{ req.artist.username }} <br>
-          Venue: {{ req.slot.venue.name }} <br>
-          Time: {{ req.slot.start_time }} to {{ req.slot.end_time }} <br>
-          Status: {{ req.get_status_display }} <br>
 
-          {% if req.status == 'pending' %}
-            <a href="{% url 'respond_to_request' req.id 'accept' %}">Accept</a> |
-            <a href="{% url 'respond_to_request' req.id 'reject' %}">Reject</a>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No slot requests.</p>
-  {% endif %}
+{% block content %}
+  <h2 style="font-size: 24px; margin-bottom: 20px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">Your Event Requests</h2>
+
+  {% for req in requests %}
+    <div style="margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      <p><strong>🎤 Artist:</strong> {{ req.artist.username }}</p>
+      <p><strong>📍 Venue:</strong> {{ req.slot.venue.name }}</p>
+      <p><strong>⏰ Time:</strong> {{ req.slot.start_time }} to {{ req.slot.end_time }}</p>
+      <p><strong>📌 Status:</strong>
+        <span style="color: {% if req.status == 'accepted' %}green{% elif req.status == 'rejected' %}red{% else %}orange{% endif %}; font-weight: bold;">
+          {{ req.get_status_display }}
+        </span>
+      </p>
+
+      {% if req.status == 'pending' and req.requested_by != user %}
+        <form method="post" style="margin-top: 10px;">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{ req.id }}">
+          <button name="action" value="accept" style="background-color: #4CAF50; color: white; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer;">✅ Accept</button>
+          <button name="action" value="decline" style="background-color: #f44336; color: white; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">❌ Decline</button>
+        </form>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p style="color: #777;">No slot requests.</p>
+  {% endfor %}
 {% endblock %}

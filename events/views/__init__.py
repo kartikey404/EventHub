@@ -1,6 +1,5 @@
 from .auth_views import *
 from .venue_views import *
-from .event_request_views import *
 from .review_views import *
 from .message_views import *
 from .profile_views import *

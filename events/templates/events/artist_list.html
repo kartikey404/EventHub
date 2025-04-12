@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>All Artists</h2>
-<ul>
-  {% for artist in artists %}
-    <li>{{ artist.user.username }} - {{ artist.bio }}</li>
-          <a href="{% url 'artist_profile' artist.pk %}">Details</a>
-  {% empty %}
-    <li>No artists found.</li>
-  {% endfor %}
-</ul>
+  <h2 style="margin-bottom: 20px;">🎤 All Artists</h2>
+
+  {% if artists %}
+    <ul style="list-style: none; padding: 0;">
+      {% for artist in artists %}
+        <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <p><strong>{{ artist.user.username }}</strong></p>
+            <p>{{ artist.bio }}</p>
+          </div>
+          <a href="{% url 'artist_profile' artist.pk %}" style="text-decoration: none; color: white; background-color: #007bff; padding: 6px 12px; border-radius: 5px;">Details</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="font-style: italic; color: #777;">No artists found.</p>
+  {% endif %}
 {% endblock %}

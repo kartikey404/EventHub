@@ -1,44 +1,48 @@
 {% extends 'base.html' %}
-{% block title %}Artist Dashboard{% endblock %}
+{% block title %}Manager Dashboard{% endblock %}
+
 {% block content %}
-  <h2>Welcome Manager {{ user.username }}!</h2>
-<a href="{% url 'inbox' %}">Inbox</a> |
-<a href="{% url 'sent_messages' %}">Sent</a> |
-<a href="{% url 'send_message' %}">Send Message |
-<!-- For manager to send request -->
-<a href="{% url 'send_event_request' %}">Request Artist</a> |
-<a href="{% url 'my_requests' %}">Requests</a> |
-  <a href="{% url 'create_slot' %}">Create Slot</a> |
-<a href="{% url 'my_slot_requests' %}">Slot Requests</a>
+  <h2 style="font-size: 26px; margin-bottom: 15px;">🏢 Welcome Manager {{ user.username }}!</h2>
 
-<p><strong>Unread Messages:</strong> {{ inbox_count }}</p>
+  <div style="margin-bottom: 20px;">
+    <a href="{% url 'inbox' %}" style="margin-right: 10px;">📥 Inbox</a>
+    <a href="{% url 'sent_messages' %}" style="margin-right: 10px;">📤 Sent</a>
+    <a href="{% url 'send_message' %}" style="margin-right: 10px;">✉️ Send Message</a>
+    <a href="{% url 'create_slot' %}" style="margin-right: 10px;">🗓️ Create Event Slot</a>
+    <a href="{% url 'my_slot_requests' %}">📩 View Booking Requests</a>
+  </div>
 
+  <p><strong>🔔 Unread Messages:</strong> {{ inbox_count }}</p>
+
+  <h3 style="margin-top: 30px;">🎤 Artists You've Booked</h3>
   {% for artist in artists_booked %}
-    <p>{{ artist.username  }} -
-        <a href="{% url 'chat' artist.id %}">Chat</a>
+    <p>
+      <strong>{{ artist.username }}</strong> –
+      <a href="{% url 'chat' artist.id %}" style="color: #007bff; text-decoration: underline;">Chat</a>
     </p>
-{% endfor %}
+  {% empty %}
+    <p>No bookings yet.</p>
+  {% endfor %}
 
+  <h3 style="margin-top: 30px;">🏠 Your Venues</h3>
+  {% if venues %}
+    <ul>
+      {% for v in venues %}
+        <li>{{ v.name }} – Capacity: {{ v.capacity }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No venues yet.</p>
+  {% endif %}
 
-<h3>Your Venues</h3>
-{% if venues %}
-  <ul>
-    {% for v in venues %}
-      <li>{{ v.name }} - {{ v.capacity }} people</li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No venues yet.</p>
-{% endif %}
-
-<h3>Your Reviews</h3>
-{% if reviews %}
-  <ul>
-    {% for r in reviews %}
-      <li>{{ r.comment }} - {{ r.rating }} stars</li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No reviews yet.</p>
-{% endif %}
+  <h3 style="margin-top: 30px;">⭐ Venue Reviews</h3>
+  {% if reviews %}
+    <ul>
+      {% for r in reviews %}
+        <li>🏠 <strong>{{ r.venue.name }}</strong>: {{ r.comment }} – {{ r.rating }} ⭐</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
 {% endblock %}

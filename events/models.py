@@ -91,7 +91,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class AvailableSlot(models.Model):
-    venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # usually a manager

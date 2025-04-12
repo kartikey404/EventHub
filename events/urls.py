@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('/', views.role_redirect, name='home'),
+    path('', views.role_redirect, name='home'),
     path('register/', views.register, name='register'),
     path('dashboard/', views.role_redirect, name='dashboard'),
     path('accounts/role-redirect/', views.role_redirect, name='role_redirect'),
@@ -14,9 +14,6 @@ urlpatterns = [
     path('manager/venues/<int:pk>/edit/', views.update_venue, name='update_venue'),
     path('manager/venues/<int:pk>/delete/', views.delete_venue, name='delete_venue'),
     path('venues/browse/', views.browse_venues, name='browse_venues'),
-    path('venues/<int:venue_id>/request/', views.send_request, name='send_request'),
-    path('manager/event-requests/', views.manage_requests, name='manage_requests'),
-    path('manager/event-requests/<int:request_id>/<str:action>/', views.update_request_status, name='update_request_status'),
     path('venue/<int:venue_id>/', views.venue_detail, name='venue_detail'),
     path('venue/<int:venue_id>/review/', views.review_venue, name='review_venue'),
     path('artist/<int:artist_id>/', views.artist_profile, name='artist_profile'),
@@ -24,10 +21,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('send-message/', views.send_message, name='send_message'),
     path('inbox/', views.inbox, name='inbox'),
-    path('send-event-request/', views.send_event_request, name='send_event_request'),
-    path('my-requests/', views.my_requests, name='my_requests'),
-    path('requests/<int:request_id>/accept/', views.accept_request, name='accept_request'),
-    path('requests/<int:request_id>/decline/', views.decline_request, name='decline_request'),
     path('events/', views.public_events, name='public_events'),
     path('review/<str:review_type>/<int:target_id>/', views.submit_review, name='submit_review'),
     path('message/<int:recipient_id>/', views.send_message_to, name='send_message_to'),
@@ -35,12 +28,12 @@ urlpatterns = [
     path('message/detail/<int:pk>/', views.message_detail, name='message_detail'),
     path('artists/', views.artist_list, name='artist_list'),
     path('venues/', views.browse_public_venues, name='venue_list'),
+    path('venue/<int:venue_id>/slots/', views.slots_by_venue, name='slots_by_venue'),
     path("chat/<int:user_id>/", views.chat_view, name="chat"),
     path('calendar/create/', views.create_slot, name='create_slot'),
     path('calendar/slots/', views.available_slots, name='available_slots'),
     path('calendar/slots/<int:slot_id>/request/', views.request_slot, name='request_slot'),
     path('calendar/requests/', views.my_slot_requests, name='my_slot_requests'),
-    path('calendar/requests/<int:request_id>/<str:action>/', views.respond_to_request, name='respond_to_request'),
     path('artist/<int:artist_id>/request/', views.request_artist_slot, name='request_artist_slot'),
     path('artist/requests/', views.artist_requests, name='artist_requests'),
 

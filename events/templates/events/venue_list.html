@@ -1,18 +1,37 @@
 {% extends 'base.html' %}
 {% block title %}My Venues{% endblock %}
+
 {% block content %}
-  <h2>My Venues</h2>
-  <a href="{% url 'create_venue' %}">Add New Venue</a>
-  <ul>
+  <h2 style="margin-bottom: 20px;">🏢 My Venues</h2>
+
+  <div style="margin-bottom: 20px;">
+    <a href="{% url 'create_venue' %}"
+       style="text-decoration: none; background-color: #28a745; color: white; padding: 8px 14px; border-radius: 6px;">
+      ➕ Add New Venue
+    </a>
+  </div>
+
+  <ul style="list-style: none; padding: 0;">
     {% for venue in venues %}
-      <li>
-        <strong>{{ venue.name }}</strong> ({{ venue.capacity }})<br>
-        {{ venue.description }}<br>
-        <a href="{% url 'update_venue' venue.pk %}">Edit</a> |
-        <a href="{% url 'delete_venue' venue.pk %}">Delete</a>
+      <li style="margin-bottom: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+        <strong style="font-size: 18px;">{{ venue.name }}</strong>
+        <span style="color: #666;">(Capacity: {{ venue.capacity }})</span><br>
+        <p style="margin: 8px 0;">{{ venue.description }}</p>
+        <a href="{% url 'slots_by_venue' venue.id %}"
+           style="float: right; background: #17a2b8; color: white; padding: 6px 10px; border-radius: 4px;">
+           View Slots
+        </a>
+        <a href="{% url 'update_venue' venue.pk %}"
+           style="text-decoration: none; background-color: #007bff; color: white; padding: 6px 12px; border-radius: 5px; margin-right: 10px;">
+          ✏️ Edit
+        </a>
+        <a href="{% url 'delete_venue' venue.pk %}"
+           style="text-decoration: none; background-color: #dc3545; color: white; padding: 6px 12px; border-radius: 5px;">
+          🗑️ Delete
+        </a>
       </li>
     {% empty %}
-      <li>No venues found.</li>
+      <li style="color: #999;">No venues found.</li>
     {% endfor %}
   </ul>
 {% endblock %}

@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>My Venues</h2>
-<ul>
-  {% for venue in venues %}
-    <li>{{ venue.name }} - {{ venue.address }}</li>
-  {% empty %}
-    <li>No venues created yet.</li>
-  {% endfor %}
-</ul>
+  <h2 style="margin-bottom: 20px;">🏠 My Venues</h2>
+
+  {% if venues %}
+    <ul style="list-style: none; padding: 0;">
+      {% for venue in venues %}
+        <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+          <strong>{{ venue.name }}</strong><br>
+          📍 {{ venue.address }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="font-style: italic; color: #777;">No venues created yet.</p>
+  {% endif %}
 {% endblock %}
